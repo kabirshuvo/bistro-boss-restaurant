@@ -7,7 +7,9 @@ import './index.css';
 import router from './routes/router.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  <div className='max-w-screen-xl mx-auto '>
+    <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>,
+  </div>
 )
