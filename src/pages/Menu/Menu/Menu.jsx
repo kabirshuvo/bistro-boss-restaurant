@@ -31,7 +31,7 @@ const Menu = () => {
       <CoverImage img={menuImage} title="Our Menu"></CoverImage>
 
 
-      {/*  Offerd Section*/}
+{/*  Offerd Section*/}
 <section>
     {/* Todays Offer */}
     <SectionTitle

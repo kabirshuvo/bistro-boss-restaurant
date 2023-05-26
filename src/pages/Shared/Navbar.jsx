@@ -8,8 +8,14 @@ const navOptions = (
       </li>
 
       <li>
-        <Link to='/orders'>D Orders</Link>
+        <Link to='/orders/pizza'>D Orders</Link>
       </li>
+
+      <div>
+      <li>
+        <Link to='/login'>LogIn</Link>
+      </li>
+      </div>
     </>
   );
 const Navbar = () => {

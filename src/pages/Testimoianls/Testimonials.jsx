@@ -17,7 +17,7 @@ import { Navigation } from "swiper";
 const Testimonials = () => {
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
-    fetch("reviews.json")
+    fetch("http://localhost:5000/reviews")
       .then((res) => res.json())
       .then((data) => setReviews(data));
   }, []);
@@ -41,9 +41,7 @@ const Testimonials = () => {
 
                 <p className="py-4">{review.details}</p>
                 <h3 className="text-2xl text-amber-200">{review.name}</h3>
-                
               </div>
-             
             </SwiperSlide>
           ))}
         </Swiper>
