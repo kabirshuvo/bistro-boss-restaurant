@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const SignUp = () => {
@@ -91,6 +92,7 @@ const {createUser} = useContext(AuthContext)
                     Password should be at least 6 (six) carecthers
                   </p>
                 )}
+                
                 <label className="label">
                   <a href="#" className="label-text-alt link link-hover">
                     Forgot password?
@@ -105,6 +107,14 @@ const {createUser} = useContext(AuthContext)
                 />
               </div>
             </form>
+            <p className="py-4 text-center">
+                <small>
+                  Allready Have an Account?{" "}
+                  <Link className="text-warning" to="/login">
+                    Please SignUp
+                  </Link>
+                </small>
+              </p>
           </div>
         </div>
       </div>

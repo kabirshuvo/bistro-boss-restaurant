@@ -1,25 +1,43 @@
+import { useContext } from "react";
 import { FaBeer } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProvider";
 
-const navOptions = (
+const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logOut()
+    .then(() => {})
+    .catch(error => console.error(error))
+  }
+
+  const navOptions = (
     <>
       <li>
-        <Link to='/menu'>D Menus</Link>
+        <Link to="/menu">D Menus</Link>
       </li>
 
       <li>
-        <Link to='/orders/pizza'>D Orders</Link>
+        <Link to="/orders/pizza">D Orders</Link>
       </li>
 
-      <div>
-      <li>
-        <Link to='/login'>LogIn</Link>
-      </li>
-      </div>
+      <div></div>
+
+      {user ? (
+        <>
+        <button onClick={handleLogout} className="btn btn-ghost">LogOut</button>
+        </>
+      ) : (
+        <>
+          <li>
+            <Link to="/login">LogIn</Link>
+          </li>
+        </>
+      )}
     </>
   );
-const Navbar = () => {
-  
+
   return (
     <>
       <div className="navbar fixed z-10 bg-opacity-40 max-w-screen-xl bg-black">
@@ -48,16 +66,14 @@ const Navbar = () => {
               {navOptions}
             </ul>
           </div>
-          <Link to='/' className="btn btn-ghost normal-case text-xl">
+          <Link to="/" className="btn btn-ghost normal-case text-xl">
             <span className="px-1 text-purple-400">Bistro</span>{" "}
             <FaBeer className="text-purple-400"></FaBeer>{" "}
             <span className="px-1 text-purple-400">Boss</span>{" "}
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-            {navOptions}
-          </ul>
+          <ul className="menu menu-horizontal px-1">{navOptions}</ul>
         </div>
         <div className="navbar-end">
           <a className="btn">Get started</a>

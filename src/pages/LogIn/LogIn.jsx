@@ -1,18 +1,22 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
     LoadCanvasTemplate,
     loadCaptchaEnginge,
     validateCaptcha,
 } from "react-simple-captcha";
+import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const LogIn = () => {
-  const captchaRef = useRef(null);
   const [disable, setDisable] = useState(true);
-
   const { signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+
+  const from = location.state?.from?.pathname || '/';
 
   useEffect(() => {
     loadCaptchaEnginge(6);
@@ -24,14 +28,26 @@ const LogIn = () => {
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
-    signIn(email, password).then((result) => {
+    signIn(email, password)
+    .then((result) => {
       const user = result.user;
       console.log(user);
+      Swal.fire({
+        title: 'Custom animation with Animate.css',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        }
+      });
+      navigate(from, {replace: true});
+
     });
   };
 
-  const handleValidateCaptcha = () => {
-    const user_captcha_value = captchaRef.current.value;
+  const handleValidateCaptcha = (e) => {
+    const user_captcha_value = e.target.value;
     if (validateCaptcha(user_captcha_value)) {
       setDisable(false);
     } else {
@@ -95,7 +111,7 @@ const LogIn = () => {
                   </label>
 
                   <input
-                    ref={captchaRef}
+                    onBlur={handleValidateCaptcha}
                     type="text"
                     name="captcha"
                     placeholder="Type The Captcha"
@@ -104,7 +120,7 @@ const LogIn = () => {
                   />
 
                   <button
-                    onClick={handleValidateCaptcha}
+                    
                     className="btn btn-info btn-outline btn-xs mt-4"
                   >
                     Vaidate Now
@@ -119,7 +135,7 @@ const LogIn = () => {
                   />
                 </div>
               </form>
-              <p className="text-center">
+              <p className="py-4 text-center">
                 <small>
                   New On this Site?{" "}
                   <Link className="text-warning" to="/signup">
