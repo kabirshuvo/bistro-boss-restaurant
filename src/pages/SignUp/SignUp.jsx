@@ -1,36 +1,66 @@
 import { useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const SignUp = () => {
   const {
     register,
     handleSubmit,
+    reset,
     watch,
     formState: { errors },
   } = useForm();
-const {createUser} = useContext(AuthContext)
+  const { createUser, updateUserProfile } = useContext(AuthContext);
+const navigate = useNavigate()
 
 
   const onSubmit = (data) => {
     console.log(data);
     createUser(data.email, data.password)
-    .then(result => {
+      .then((result) => {
         const loggedUser = result.user;
         console.log(loggedUser);
-    })
-    .catch(error => console.error(error))
+        updateUserProfile(data.name, data.photoURL).then(() => {
+          console.log("user profile info updated");
+          reset();
+          let timerInterval;
+          Swal.fire({
+            title: "User RegisTration Successfull",
+            html: "Welcome to <b></b> Bistro Boss Restaurant.",
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading();
+              const b = Swal.getHtmlContainer().querySelector("b");
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft();
+              }, 100);
+            },
+            willClose: () => {
+              clearInterval(timerInterval);
+            },
+          }).then((result) => {
+            /* Read more about handling dismissals below */
+            if (result.dismiss === Swal.DismissReason.timer) {
+              console.log("I was closed by the timer");
+            }
+            navigate('/')
+          });
+        });
+      })
+      .catch((error) => console.error(error));
   };
 
   console.log(watch("example"));
 
   return (
     <>
-    <Helmet>
+      <Helmet>
         <title>Bistro Boss | signUp</title>
-    </Helmet>
+      </Helmet>
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
@@ -56,6 +86,22 @@ const {createUser} = useContext(AuthContext)
                 {errors.name && (
                   <span className="text-warning">
                     Name Field Cannot be Empty
+                  </span>
+                )}
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Photo URL</span>
+                </label>
+                <input
+                  type="text"
+                  {...register("photoURL", { required: true })}
+                  placeholder="Your photoURL please"
+                  className="input input-bordered"
+                />
+                {errors.photoURL && (
+                  <span className="text-warning">
+                    photoURL Makes Your Profile Better
                   </span>
                 )}
               </div>
@@ -92,7 +138,7 @@ const {createUser} = useContext(AuthContext)
                     Password should be at least 6 (six) carecthers
                   </p>
                 )}
-                
+
                 <label className="label">
                   <a href="#" className="label-text-alt link link-hover">
                     Forgot password?
@@ -108,13 +154,13 @@ const {createUser} = useContext(AuthContext)
               </div>
             </form>
             <p className="py-4 text-center">
-                <small>
-                  Allready Have an Account?{" "}
-                  <Link className="text-warning" to="/login">
-                    Please SignUp
-                  </Link>
-                </small>
-              </p>
+              <small>
+                Allready Have an Account?{" "}
+                <Link className="text-warning" to="/login">
+                  Please SignUp
+                </Link>
+              </small>
+            </p>
           </div>
         </div>
       </div>

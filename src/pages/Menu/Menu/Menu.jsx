@@ -39,25 +39,39 @@ const Menu = () => {
         heading="Today's Offer"
       ></SectionTitle>
 {/* Offerd menu Items */}
-      <MenuCategory items={offered}></MenuCategory>
+     
 </section>
+
+<section>
+<MenuCategory 
+items={offered} 
+title="offered"
+
+></MenuCategory>
+</section>
+
+
 {/* Dessert Section */}
 <section>
       <MenuCategory 
       items={desserts}
-      title="Dessert"
+      title="dessert"
       img={dessertImage}
       ></MenuCategory>
 </section>
+
+
 
 {/* Pizza Section */}
 <section>
       <MenuCategory 
       items={pizza}
-      title="Pizza"
+      title="pizza"
       img={pizzaImage}
       ></MenuCategory>
 </section>
+
+
 
 {/* Salad Section */}
 <section>
@@ -67,6 +81,8 @@ const Menu = () => {
       img={saladImage}
       ></MenuCategory>
 </section>
+
+
 
 {/* Soup Section */}
 <section>
@@ -78,10 +94,7 @@ const Menu = () => {
 </section>
 
 
-
-
-
-    </div>
+</div>
   );
 };
 
