@@ -46,7 +46,7 @@ const Menu = () => {
 <MenuCategory 
 items={offered} 
 title="offered"
-
+img={saladImage}
 ></MenuCategory>
 </section>
 

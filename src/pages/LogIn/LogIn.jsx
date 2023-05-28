@@ -2,9 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-    LoadCanvasTemplate,
-    loadCaptchaEnginge,
-    validateCaptcha,
+  LoadCanvasTemplate,
+  loadCaptchaEnginge,
+  validateCaptcha,
 } from "react-simple-captcha";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -33,7 +33,7 @@ const LogIn = () => {
       const user = result.user;
       console.log(user);
       Swal.fire({
-        title: 'Custom animation with Animate.css',
+        title: 'Welcome to Bistro Boss Restaurant',
         showClass: {
           popup: 'animate__animated animate__fadeInDown'
         },
