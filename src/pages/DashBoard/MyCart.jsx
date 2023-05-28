@@ -1,14 +1,44 @@
 import { Helmet } from "react-helmet-async";
+import { FaRemoveFormat } from "react-icons/fa";
+import Swal from "sweetalert2";
 import useCart from "../../hooks/useCart";
-import { FaRemoveFormat, FaTrain } from "react-icons/fa";
 
 const MyCart = () => {
-  const [cart] = useCart();
+  const [cart, refetch] = useCart();
   // console.log(cart);
-  const total = cart.reduce((sum, item) => item.price + sum, 0);
+  const total = cart.reduce((sum, row) => row.price + sum, 0);
+
+  const handleDelete = (row)=> {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't to delete it ..)",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+        fetch(`http://localhost:5000/carts/${row._id}`, {
+            method: 'DELETE',
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.deletedCount > 0){
+                refetch();
+                Swal.fire(
+                    'Deleted!',
+                    'Your Food has been deleted.',
+                    'success'
+                )
+            }
+        })
+        }
+      })
+  }
 
   return (
-    <div>
+    <div className="w-full">
       <Helmet>
         <title>Bistro Boss | My Cart</title>
       </Helmet>
@@ -54,7 +84,7 @@ const MyCart = () => {
                   </td>
                   <td className="text-end">$ {row.price}</td>
                   <td>
-                    <button className="btn btn-ghost btn-xs text-xl"><FaRemoveFormat></FaRemoveFormat></button>
+                    <button onClick={()=>handleDelete(row)} className="btn btn-ghost btn-xs "><FaRemoveFormat></FaRemoveFormat> <span className="text-warning ms-2">delete item</span></button>
                   </td>
                 </tr>
               ))}

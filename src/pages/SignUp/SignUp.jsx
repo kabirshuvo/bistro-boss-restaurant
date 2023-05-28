@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
+import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 
 const SignUp = () => {
   const {
@@ -14,41 +15,52 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
   const { createUser, updateUserProfile } = useContext(AuthContext);
-const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    console.log(data);
     createUser(data.email, data.password)
       .then((result) => {
         const loggedUser = result.user;
         console.log(loggedUser);
-        updateUserProfile(data.name, data.photoURL).then(() => {
-          console.log("user profile info updated");
-          reset();
-          let timerInterval;
-          Swal.fire({
-            title: "User RegisTration Successfull",
-            html: "Welcome to <b></b> Bistro Boss Restaurant.",
-            timer: 1500,
-            timerProgressBar: true,
-            didOpen: () => {
-              Swal.showLoading();
-              const b = Swal.getHtmlContainer().querySelector("b");
-              timerInterval = setInterval(() => {
-                b.textContent = Swal.getTimerLeft();
-              }, 100);
+
+        updateUserProfile(data.name, data.photoURL)
+        .then(() => {
+          const saveUser = {name: data.name, email: data.email}
+          fetch(`http://localhost:5000/users`, {
+            method: 'POST',
+            headers: {
+              'content-type':'application/json'
             },
-            willClose: () => {
-              clearInterval(timerInterval);
-            },
-          }).then((result) => {
-            /* Read more about handling dismissals below */
-            if (result.dismiss === Swal.DismissReason.timer) {
-              console.log("I was closed by the timer");
-            }
-            navigate('/')
-          });
+            body: JSON.stringify(saveUser)
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.insertedId) {
+                reset();
+                let timerInterval;
+                Swal.fire({
+                  title: "User RegisTration Successfull",
+                  html: "Welcome to <b></b> Bistro Boss Restaurant.",
+                  timer: 1500,
+                  timerProgressBar: true,
+                  didOpen: () => {
+                    Swal.showLoading();
+                    const b = Swal.getHtmlContainer().querySelector("b");
+                    timerInterval = setInterval(() => {
+                      b.textContent = Swal.getTimerLeft();
+                    }, 100);
+                  },
+                  willClose: () => {
+                    clearInterval(timerInterval);
+                  },
+                }).then((result) => {
+                  if (result.dismiss === Swal.DismissReason.timer) {
+                    console.log("I was closed by the timer");
+                  }
+                });
+                navigate("/");
+              }
+            });
         });
       })
       .catch((error) => console.error(error));
@@ -161,6 +173,7 @@ const navigate = useNavigate()
                 </Link>
               </small>
             </p>
+            <SocialLogin></SocialLogin>
           </div>
         </div>
       </div>
