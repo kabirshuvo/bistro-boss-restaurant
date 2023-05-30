@@ -4,6 +4,7 @@ import DashBoard from "../layout/DashBoard";
 import AddItems from "../pages/DashBoard/AddItems/AddItems";
 import AdminHome from "../pages/DashBoard/AdminHome/AdminHome";
 import AllUsers from "../pages/DashBoard/AllUsers/AllUsers";
+import ManageBookings from "../pages/DashBoard/ManageBookings/ManageBookings";
 import ManageItems from "../pages/DashBoard/ManageItems/ManageItems";
 import MyCart from "../pages/DashBoard/MyCart";
 import Home from "../pages/Home/Home";
@@ -12,8 +13,7 @@ import Menu from "../pages/Menu/Menu/Menu";
 import Orders from "../pages/Orders/Orders/Orders";
 import Secret from "../pages/Shared/Secret";
 import SignUp from "../pages/signUp/signUp";
-import PrivateRoute from "./PrivateRoute";
-import ManageBookings from "../pages/DashBoard/ManageBookings/ManageBookings";
+import AdminRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -46,13 +46,13 @@ const router = createBrowserRouter([
         },
         {
           path: 'secret',
-          element: <PrivateRoute><Secret></Secret></PrivateRoute>
+          element: <AdminRoute><Secret></Secret></AdminRoute>
         }
       ]
     },
     {
       path: 'dashboard',
-      element: <PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
+      element: <AdminRoute><DashBoard></DashBoard></AdminRoute>,
       children: [
         {
           path: 'adminhome',

@@ -1,14 +1,36 @@
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
 import { FaAward, FaTrashAlt, FaUsers } from "react-icons/fa";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AllUsers = () => {
+  const [axiosSecure] = useAxiosSecure();
   const { data: users = [], refetch } = useQuery(["users"], async () => {
-    const res = await fetch(`http://localhost:5000/users`);
-    return res.json();
+    const res = await axiosSecure.get(`/users`);
+    return res.data;
   });
 
   // TODO:
+
+  const handleMakeAdmin = (user) => {
+    fetch(`http://localhost:5000/users/admin/${user._id}`, {
+      method: "PATCH",
+    }).then((data) => {
+      console.log(data);
+      if (data.modifiedCount) {
+        refetch();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Now This User is an Admin",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+  };
+
   const handleDelete = () => {};
 
   return (
@@ -44,7 +66,10 @@ const AllUsers = () => {
                     {user.role === "admin" ? (
                       "admin"
                     ) : (
-                      <button className="btn btn-ghost btn-xs bg-info ">
+                      <button
+                        onClick={() => handleMakeAdmin(user)}
+                        className="btn btn-ghost btn-xs bg-info "
+                      >
                         <FaAward />
                         <span className="text-slate-700 ms-2">
                           <small>Update USER</small>
@@ -54,7 +79,7 @@ const AllUsers = () => {
                   </td>
                   <td>
                     <button
-                      onClick={() => handleDelete(row)}
+                      onClick={() => handleDelete()}
                       className="btn btn-ghost btn-xs "
                     >
                       <FaTrashAlt></FaTrashAlt>{" "}
