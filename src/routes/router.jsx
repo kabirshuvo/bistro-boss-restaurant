@@ -13,7 +13,8 @@ import Menu from "../pages/Menu/Menu/Menu";
 import Orders from "../pages/Orders/Orders/Orders";
 import Secret from "../pages/Shared/Secret";
 import SignUp from "../pages/signUp/signUp";
-import AdminRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -46,25 +47,25 @@ const router = createBrowserRouter([
         },
         {
           path: 'secret',
-          element: <AdminRoute><Secret></Secret></AdminRoute>
+          element: <PrivateRoute><Secret></Secret></PrivateRoute>
         }
       ]
     },
     {
       path: 'dashboard',
-      element: <AdminRoute><DashBoard></DashBoard></AdminRoute>,
+      element: <DashBoard></DashBoard>,
       children: [
         {
           path: 'adminhome',
-          element: <AdminHome></AdminHome>
+          element: <AdminRoute><AdminHome></AdminHome></AdminRoute>
         },
         {
           path: 'mycart',
           element: <MyCart></MyCart>
         },
         {
-          path: 'additems',
-          element: <AddItems></AddItems>
+          path: 'additem',
+          element: <AdminRoute><AddItems></AddItems></AdminRoute>
         },
         {
           path: 'manageitems',

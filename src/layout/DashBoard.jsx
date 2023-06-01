@@ -13,13 +13,14 @@ import {
   FaWallet
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
-import useCart from "../hooks/useCart";
 import useAdmin from "../hooks/useAdmin";
+import useCart from "../hooks/useCart";
 
 const DashBoard = () => {
   const [cart] = useCart();
 
   // TODO: load data from the server to have dynamic isAdmin based on data
+  // TODO: DONE :)
   // const isAdmin = true;
 
   const [isAdmin] = useAdmin()
@@ -41,6 +42,8 @@ const DashBoard = () => {
         <div className="drawer-side bg-[#D1A054]">
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
           <ul className="menu p-4 w-80 bg-purple-700 rounded-lg text-base-content">
+
+{/* Checking admin or not */}
             {isAdmin ? <>
             <li>
               <NavLink to="/dashboard/adminhome">
@@ -48,7 +51,7 @@ const DashBoard = () => {
               </NavLink>
             </li> 
             <li>
-              <NavLink to="/dashboard/additems">
+              <NavLink to="/dashboard/additem">
                 <FaUtensils />
                 ADD ITEMS
               </NavLink>
