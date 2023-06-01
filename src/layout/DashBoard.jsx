@@ -19,18 +19,13 @@ import useCart from "../hooks/useCart";
 const DashBoard = () => {
   const [cart] = useCart();
 
-  // TODO: load data from the server to have dynamic isAdmin based on data
-  // TODO: DONE :)
-  // const isAdmin = true;
-
   const [isAdmin] = useAdmin()
-
 
   return (
     <>
       <div className="drawer drawer-mobile">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex flex-col items-center justify-center">
+        <div className="drawer-content">
           <Outlet></Outlet>
           <label
             htmlFor="my-drawer-2"
@@ -44,6 +39,7 @@ const DashBoard = () => {
           <ul className="menu p-4 w-80 bg-purple-700 rounded-lg text-base-content">
 
 {/* Checking admin or not */}
+
             {isAdmin ? <>
             <li>
               <NavLink to="/dashboard/adminhome">
