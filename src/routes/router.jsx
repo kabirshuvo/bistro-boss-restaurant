@@ -15,6 +15,7 @@ import Secret from "../pages/Shared/Secret";
 import SignUp from "../pages/signUp/signUp";
 import AdminRoute from "./AdminRoute";
 import PrivateRoute from "./PrivateRoute";
+import Payment from "../pages/DashBoard/Payment/Payment";
 
 const router = createBrowserRouter([
     {
@@ -63,6 +64,13 @@ const router = createBrowserRouter([
           path: 'mycart',
           element: <MyCart></MyCart>
         },
+
+        {
+          path: 'payment',
+          element: <Payment></Payment>
+        },
+
+        // Admin Routes : 
         {
           path: 'additem',
           element: <AdminRoute><AddItems></AddItems></AdminRoute>

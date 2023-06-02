@@ -1,29 +1,40 @@
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import SectionTitle from "../../../components/SectionTitle";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useMenu from "../../../hooks/useMenu";
 
 const ManageItems = () => {
-  const [menu] = useMenu();
-  const handleDelete = row => {
+  const [menu, , refetch] = useMenu();
+  const [axiosSecure] = useAxiosSecure();
+
+  const handleDelete = (item) => {
+    // console.log(item);
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You Want to Delete This?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire(
-            'Item Deleted!',
-            'Your file has been deleted.',
-            'success'
-          )
-        }
-      })
-  }
+      title: "Are you sure?",
+      text: "You Want to Delete This?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/menu/${item._id}`).then((res) => {
+          console.log("deleted res", res.data);
+          if (res.data.deletedCount > 0) {
+            refetch();
+            Swal.fire(
+              "Item Deleted!",
+              "Your Item has been deleted.",
+              "success"
+            );
+          }
+         
+        });
+      }
+    });
+  };
 
   return (
     <div className="w-full p-7 ">
@@ -68,7 +79,13 @@ const ManageItems = () => {
                   <button className="btn btn-ghost btn-xs">details</button>
                 </td>
                 <td>
-                <button onClick={()=>handleDelete(row)}  className="btn btn-ghost btn-xs "><FaTrashAlt></FaTrashAlt> <span className="text-warning ms-2">delete item</span></button>
+                  <button
+                    onClick={() => handleDelete(item)}
+                    className="btn btn-ghost btn-xs "
+                  >
+                    <FaTrashAlt></FaTrashAlt>{" "}
+                    <span className="text-warning ms-2">delete item</span>
+                  </button>
                 </td>
               </tr>
             ))}
