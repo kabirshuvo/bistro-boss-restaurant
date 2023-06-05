@@ -1,11 +1,13 @@
 import { useContext } from "react";
 import { FaBeer, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useAdmin from "../../hooks/useAdmin";
 import useCart from "../../hooks/useCart";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [isAdmin] = useAdmin();
   const [cart] = useCart()
 
   const handleLogout = () => {
@@ -17,13 +19,17 @@ const Navbar = () => {
   const navOptions = (
     <>
       <li>
-        <Link to="/menu">D Menus</Link>
+        <Link to="/menu">Bistro Menu</Link>
       </li>
 
       <li>
-        <Link to="/orders/pizza">D Orders</Link>
+        <Link to="/orders/pizza">Order Food</Link>
       </li>
 
+      <li>
+        <Link to={isAdmin ? '/dashboard/adminhome' : '/dashboard/userhome'}>Dashboard</Link>
+      </li> 
+    
       <li>
         <Link to="/dashboard/mycart">
           <button className="btn gap-2">

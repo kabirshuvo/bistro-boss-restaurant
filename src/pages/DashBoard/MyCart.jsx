@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { FaRemoveFormat } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useCart from "../../hooks/useCart";
+import { Link } from "react-router-dom";
 
 const MyCart = () => {
   const [cart, refetch] = useCart();
@@ -112,9 +113,9 @@ const MyCart = () => {
                   </h3>
                 </th>
                 <th></th>
-                <th>
+                <Link to='/dashboard/payment'>
                   <button className="btn btn-sm">Pay Now</button>
-                </th>
+                </Link>
               </tr>
             </tfoot>
           </table>

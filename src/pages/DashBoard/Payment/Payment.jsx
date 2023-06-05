@@ -13,7 +13,7 @@ const Payment = () => {
 
 
   return (
-    <section className="py-7">
+    <section className="py-7 payment-style">
       <SectionTitle
         heading="payment"
         subHeading="...please process..."
@@ -25,7 +25,7 @@ const Payment = () => {
 
      <div className="p-8 flex flex-col     ">
      <Elements stripe={stripePromise}>
-        <CheckOutForm price={price}></CheckOutForm>
+        <CheckOutForm cart={cart} price={price}></CheckOutForm>
       </Elements>
      </div>
     </section>
